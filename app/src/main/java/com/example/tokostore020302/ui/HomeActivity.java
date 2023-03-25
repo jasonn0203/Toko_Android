@@ -7,14 +7,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.tokostore020302.R;
 import com.example.tokostore020302.fragments.AccountFragment;
 import com.example.tokostore020302.fragments.HomePageFragment;
 import com.example.tokostore020302.fragments.OrderFragment;
-import com.example.tokostore020302.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

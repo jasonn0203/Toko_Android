@@ -10,6 +10,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,6 +53,7 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
     ProductDatabase db;
 
 
+    ImageButton searchBtn;
     ImageView noProdFoundImg, samsungBrand, appleBrand, miBrand, oppoBrand;
     Boolean isSearchLayoutVisible = false;//Biến lưu trạng thái visibility thanh search
     EditText searchInput;
@@ -100,6 +105,7 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
 
     }
 
+    //Đính kèm database
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -118,6 +124,11 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
         ImageView appleBrand = view.findViewById(R.id.appleCategory);
         ImageView xiaomiBrand = view.findViewById(R.id.xiaomiCategory);
         ImageView oppoBrand = view.findViewById(R.id.oppoCategory);
+        txtProduct = (TextView) view.findViewById(R.id.txtNewProducts);
+        searchInput = (EditText) view.findViewById(R.id.searchInput);
+        searchBtn = (ImageButton) view.findViewById(R.id.btnSearch);
+        noProdFoundImg = (ImageView) view.findViewById(R.id.img_no_product);
+
 
         rvHomeProduct = (RecyclerView) view.findViewById(R.id.product_grid);
 
@@ -129,6 +140,8 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
 
         rvHomeProduct.setLayoutManager(layoutManager);
 
+        //Clear dữ liệu cũ trước khi render ra
+        products.clear();
         //Load dữ liệu vào ds
         products.addAll(db.getAllProducts());
         adapter.notifyDataSetChanged();
@@ -138,7 +151,81 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
         Banner((ViewFlipper) view.findViewById(R.id.simpleViewFlipper));
 
 
+        //Search sản phẩm
+        searchInput.addTextChangedListener(queryOnSearchInput());
+
+
         return view;
+    }
+
+
+    //Chức năng search sản phẩm
+    private void getQueryOnSearchInput(String query) {
+        //Khởi tạo biến để lưu giá trị có hay không tìm thấy sản phẩm
+        boolean founded = false;
+
+        //Tạo danh sách chứa sản phẩm trùng khớp với KQ search
+        List<Product> searchValues = new ArrayList<>();
+        //Nếu có kết quả tìm thấy thì làm
+        if (products != null) {
+            //Duyệt trong DB
+            for (Product product : products) {
+                //Lấy ra tên của SP trong DB mà trùng khớp
+                String productGetName = product.getName().toLowerCase();
+                //Trường hợp trùng khớp kết quả
+                if (productGetName.contains(query)) {
+                    noProdFoundImg.setVisibility(View.GONE);
+                    searchValues.add(product);
+                    founded = true;
+                }
+            }
+        }
+
+
+        //TH không trùng khớp
+        if (!founded) {
+            noProdFoundImg.setImageResource(R.drawable.no_product_found);
+            noProdFoundImg.setVisibility(View.VISIBLE);
+            txtProduct.setText("Không tìm thấy kết quả phù hợp với '" + query + "'");
+        } else {
+            txtProduct.setText("Kết quả tìm kiếm của '" + query + "'");
+        }
+
+        //Cập nhật adapter
+        adapter = new HomeProductAdapter(searchValues, context, this);
+        rvHomeProduct.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+
+    }
+
+
+    @NonNull
+    private TextWatcher queryOnSearchInput() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                //Thực hiện tìm kiếm SP
+                getQueryOnSearchInput(editable.toString());
+
+                //TH ô input rỗng
+                if (TextUtils.isEmpty(editable.toString())) {
+                    txtProduct.setText("Sản phẩm mới nhất dành cho bạn !");
+                }
+
+            }
+        };
     }
 
     private void Banner(ViewFlipper view) {
@@ -167,4 +254,6 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
 
 
     }
+
+
 }
