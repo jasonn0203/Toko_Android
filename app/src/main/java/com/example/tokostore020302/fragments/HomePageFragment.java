@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -147,8 +148,23 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
     }
 
 
+    //Click vào để đến trang detail
     @Override
     public void onItemClick(Product product) {
-        Toast.makeText(getContext(), product.getName(), Toast.LENGTH_SHORT).show();
+        ProductDetailFragment detailFragment = new ProductDetailFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, detailFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        //Tạo bundle để gửi dữ liệu đến trang detail
+        Bundle bundle = new Bundle();
+        bundle.putString("name", product.getName());
+        bundle.putString("desc", product.getDescription());
+        bundle.putDouble("price", product.getPrice());
+        bundle.putString("image", product.getImage());
+        detailFragment.setArguments(bundle);
+
+
     }
 }

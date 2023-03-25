@@ -1,7 +1,6 @@
 package com.example.tokostore020302.adapters;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,19 +21,8 @@ import java.util.List;
 public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.ViewHolder> {
 
     private OnItemClickListener listener;
-    private List<Product> products;
+    private final List<Product> products;
     Context context;
-
-
-//    public HomeProductAdapter(List<Product> products, OnItemClickListener listener) {
-//        this.products = products;
-//        this.listener = listener;
-//    }
-//
-//    public HomeProductAdapter(List<Product> products, Context context) {
-//        this.products = products;
-//        this.context = context;
-//    }
 
 
     public HomeProductAdapter(List<Product> products, Context context, OnItemClickListener listener) {
@@ -73,7 +61,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView productImageView;
+        private final ImageView productImageView;
         TextView productNameTxt, productPriceTxt;
 
         public ViewHolder(@NonNull View itemView) {
