@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    tools:context=".fragments.ProductDetailFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--Hình SP-->
+        <ImageView
+            android:id="@+id/productDetailImage"
+            android:layout_width="350dp"
+            android:layout_height="320dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:scaleType="centerCrop"
+             />
+
+        <!--    Thông tin SP-->
+        <LinearLayout
+            android:id="@+id/productDetailContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/productDetailImage"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <!--TÊN SP-->
+            <TextView
+                android:id="@+id/productDetailName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="IPHONE 14 PRO MAX"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!--Giá SP-->
+            <TextView
+                android:id="@+id/productDetailPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="1756 $"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!--Mô tả SP-->
+            <TextView
+                android:id="@+id/productDetailDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:layout_marginBottom="100dp"
+                android:lineHeight="25dp"
+                android:justificationMode="inter_word"
+
+                android:text="@string/demo_string_long"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAddToCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:backgroundTint="@color/primary"
+            android:paddingVertical="12dp"
+            android:text="Add to cart"
+            android:textColor="@color/secondary"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</ScrollView>

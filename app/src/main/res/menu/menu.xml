@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homePanel"
+        android:checked="true"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/ordersPanel"
+
+        android:icon="@drawable/cart_vector"
+
+        android:title="Orders" />
+    <item
+        android:id="@+id/accountPanel"
+        android:icon="@drawable/user"
+
+        android:title="Account" />
+</menu>

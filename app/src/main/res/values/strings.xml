@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Toko Store</string>
+    <string name="starting_slogan">Mobile Ecommerce, Better Results</string>
+    <string name="starting_desc">Create your quick account and find the best devices !</string>
+    <string name="first_name_hint">Enter your first name ...</string>
+    <string name="last_name_hint">Enter your last name ...</string>
+    <string name="registerTextTop">Create a Free</string>
+    <string name="register_text_top_next">Account</string>
+    <string name="first_name_label">First Name</string>
+    <string name="last_name_label">Last name</string>
+    <string name="password_hint">Enter your password ...</string>
+    <string name="password_label">Password</string>
+    <string name="email_hint">Enter your Email ...</string>
+    <string name="email_label">Email</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="demo_string_long">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</string>
+</resources>
