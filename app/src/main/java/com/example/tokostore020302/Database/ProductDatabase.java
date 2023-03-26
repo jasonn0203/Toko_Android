@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ProductDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "product.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     public ProductDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -22,14 +22,15 @@ public class ProductDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PRODUCTS_TABLE = "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, brand TEXT, description TEXT, price REAL, image TEXT)";
+
         db.execSQL(CREATE_PRODUCTS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String DROP_PRODUCTS_TABLE = "DROP TABLE IF EXISTS products";
-        db.execSQL(DROP_PRODUCTS_TABLE);
-        onCreate(db);
+        //        String DROP_PRODUCTS_TABLE = "DROP TABLE IF EXISTS products";
+        //        db.execSQL(DROP_PRODUCTS_TABLE);
+        //        onCreate(db);
     }
 
 
@@ -98,5 +99,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
         return products;
 
     }
+
+
 
 }
