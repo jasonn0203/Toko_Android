@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="15dp"
         android:text="@string/registerTextTop"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/last_name_label"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstNameField" />
@@ -94,16 +94,47 @@
         app:layout_constraintTop_toBottomOf="@+id/lastNameLabel"
         tools:ignore="VisualLintTextFieldSize" />
 
+    <TextView
+        android:id="@+id/addressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/address_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastNameField" />
+
+
+    <EditText
+        android:id="@+id/addressField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="24dp"
+        android:autofillHints="name"
+        android:background="@drawable/custom_input"
+        android:drawableEnd="@drawable/baseline_address"
+        android:drawablePadding="4dp"
+        android:hint="@string/address_hint"
+        android:inputType="textPersonName"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="12dp"
+        android:singleLine="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressLabel"
+        tools:ignore="VisualLintTextFieldSize" />
+
 
     <TextView
         android:id="@+id/emailNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/email_label"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastNameField" />
+        app:layout_constraintTop_toBottomOf="@+id/addressField" />
 
 
     <EditText
@@ -131,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/password_label"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailField" />
@@ -160,7 +191,7 @@
         android:id="@+id/forwardBtn"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/forward_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

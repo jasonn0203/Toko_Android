@@ -41,8 +41,6 @@ public class ProductDetailFragment extends Fragment {
         String image = bundle.getString("image");
 
 
-        int position = bundle.getInt("position");
-
 
         txtProdName = (TextView) view.findViewById(R.id.productDetailName);
         txtProdPrice = view.findViewById(R.id.productDetailPrice);

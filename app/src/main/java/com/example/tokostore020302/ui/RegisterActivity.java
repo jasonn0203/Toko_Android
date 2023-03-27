@@ -13,7 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tokostore020302.Database.ProductDatabase;
 import com.example.tokostore020302.R;
+import com.example.tokostore020302.models.User;
 import com.example.tokostore020302.models.Users;
 import com.google.gson.Gson;
 
@@ -22,8 +24,9 @@ import java.util.Objects;
 public class RegisterActivity extends AppCompatActivity {
 
     TextView toLogin;
-    EditText firstNameField, lastNameField, emailField, pwField;
+    EditText firstNameField, lastNameField, addressField, emailField, pwField;
     ImageView forwardBtn;
+    private ProductDatabase database;
 
     private SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
@@ -41,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+        database = new ProductDatabase(this);
+
 
         //Ẩn action bar mặc định
         Objects.requireNonNull(getSupportActionBar()).hide();
@@ -50,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         firstNameField = (EditText) findViewById(R.id.firstNameField);
         lastNameField = (EditText) findViewById(R.id.lastNameField);
         emailField = (EditText) findViewById(R.id.emailField);
+        addressField = (EditText) findViewById(R.id.addressField);
         pwField = (EditText) findViewById(R.id.passwordField);
 
 
@@ -59,52 +65,89 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         //Click nút submit
-        forwardBtn.setOnClickListener(checkValidate());
+        //forwardBtn.setOnClickListener(checkValidate());
+
+        forwardBtn.setOnClickListener(validateRegister());
 
 
     }
 
     @NonNull
-    private View.OnClickListener checkValidate() {
-        return view -> {
-            String firstName = firstNameField.getText().toString().trim();
-            String lastName = lastNameField.getText().toString().trim();
-            String email = emailField.getText().toString().trim();
-            String pw = pwField.getText().toString().trim();
-            boolean isValid = validateRegister(firstName, lastName, email, pw);
+    private View.OnClickListener validateRegister() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            //Điều kiện trùng khớp với yêu cầu đăng ký tài khoản
-            if (isValid) {
+                String firstName = firstNameField.getText().toString().trim();
+                String lastName = lastNameField.getText().toString().trim();
+                String email = emailField.getText().toString().trim();
+                String address = addressField.getText().toString();
+                String pw = pwField.getText().toString().trim();
 
-                //Tạo 1 User để lưu vào shared pre
-                Users newUser = new Users();
-                newUser.setFirstName(firstName);
-                newUser.setLastName(lastName);
-                newUser.setEmail(email);
-                newUser.setPassword(pw);
+                boolean isValidRegister = checkValidateRegister(firstName, lastName, email, pw);
 
-                //----Convert User từ Object --> String với format là JSON để lưu vào Shared----
+                if (isValidRegister) {
+                    //Them user vao db
 
-                //Ép sang Json vì newUser là object và lưu vào biến userString
-                String userString = gson.toJson(newUser);
+                    User user = new User(0, firstName, lastName, email, address, pw);
+                    if (database.registerUser(user)) {
+                        Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
 
-                //editor sử dụng để thực hiện các thao tác chỉnh sửa dữ liệu trên SharedPreferences
-                editor.putString(SharedUtils.SHARE_KEY_USER, userString);//Lưu chuỗi JSON
-                editor.commit();//Lưu các thay đổi
+                        // Tạo Bundle và thêm dữ liệu vào Bundle
+                        intent.putExtra("firstname", firstName);
+                        intent.putExtra("lastname", lastName);
+                        startActivity(intent);
 
-
-                Toast.makeText(RegisterActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterActivity.this,
-                        LoginActivity.class);
-                startActivity(intent);
-                finish();
+                    } else
+                        Toast.makeText(RegisterActivity.this, "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
+                }
 
             }
-
         };
     }
 
-    private boolean validateRegister(String firstName, String lastName, String email, String pw) {
+//    @NonNull
+//    private View.OnClickListener checkValidate() {
+//        return view -> {
+//            String firstName = firstNameField.getText().toString().trim();
+//            String lastName = lastNameField.getText().toString().trim();
+//            String email = emailField.getText().toString().trim();
+//            String pw = pwField.getText().toString().trim();
+//            boolean isValid = validateRegister(firstName, lastName, email, pw);
+//
+//            //Điều kiện trùng khớp với yêu cầu đăng ký tài khoản
+//            if (isValid) {
+//
+//                //Tạo 1 User để lưu vào shared pre
+//                Users newUser = new Users();
+//                newUser.setFirstName(firstName);
+//                newUser.setLastName(lastName);
+//                newUser.setEmail(email);
+//                newUser.setPassword(pw);
+//
+//                //----Convert User từ Object --> String với format là JSON để lưu vào Shared----
+//
+//                //Ép sang Json vì newUser là object và lưu vào biến userString
+//                String userString = gson.toJson(newUser);
+//
+//                //editor sử dụng để thực hiện các thao tác chỉnh sửa dữ liệu trên SharedPreferences
+//                editor.putString(SharedUtils.SHARE_KEY_USER, userString);//Lưu chuỗi JSON
+//                editor.commit();//Lưu các thay đổi
+//
+//
+//                Toast.makeText(RegisterActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(RegisterActivity.this,
+//                        LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//
+//            }
+//
+//        };
+//    }
+
+    private boolean checkValidateRegister(String firstName, String lastName, String email, String pw) {
         boolean isValid = true;
 
         if (firstName.isEmpty()) {

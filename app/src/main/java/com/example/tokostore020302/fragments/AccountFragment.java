@@ -1,11 +1,13 @@
 package com.example.tokostore020302.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +36,7 @@ public class AccountFragment extends Fragment {
 
         txtName = (TextView) view.findViewById(R.id.accountDisplayName);
 
-        SharedPreferences getShared = getActivity().getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
+        /*SharedPreferences getShared = getActivity().getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
         //Lấy ra từ Shared
         String userGetShared = getShared.getString(SharedUtils.SHARE_KEY_USER, null);
 
@@ -48,7 +50,17 @@ public class AccountFragment extends Fragment {
             String nameInfo = user.getFirstName() + " " + user.getLastName();
             txtName.setText(nameInfo);
 
-        }
+        }*/
+
+        Intent intent = getActivity().getIntent();
+        if (intent != null) {
+            String firstname = intent.getStringExtra("firstname");
+            String lastname = intent.getStringExtra("lastname");
+            String nameInfo = firstname + " " + lastname;
+            txtName.setText(nameInfo);
+        } else
+            txtName.setText("Non-login user");
+
 
         return view;
     }

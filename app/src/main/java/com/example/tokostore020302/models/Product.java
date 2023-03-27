@@ -1,6 +1,6 @@
 package com.example.tokostore020302.models;
 
-import java.io.Serializable;
+
 
 public class Product {
     private final int id;

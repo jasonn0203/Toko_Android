@@ -12,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tokostore020302.Database.ProductDatabase;
 import com.example.tokostore020302.R;
+import com.example.tokostore020302.models.User;
 import com.example.tokostore020302.models.Users;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
@@ -25,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     ImageView forwardBtn;
 
     EditText emailField, pwField;
+    private ProductDatabase database;
 
     SharedPreferences sharedPreferences;
 
@@ -39,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         //Khai báo Shared (Không cần editor vì chỉ cần lấy Dữ Liệu)
         sharedPreferences = getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
 
+        database = new ProductDatabase(this);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
@@ -61,14 +66,46 @@ public class LoginActivity extends AppCompatActivity {
         forwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkValidLogin();
+                String email = emailField.getText().toString().trim();
+                String password = pwField.getText().toString().trim();
+
+                //Case admin
+                if (email.equals("admin") && password.equals("admin")) {
+                    //Chuyển tới sang admin
+                    Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                checkEmailLogin(email);
+                checkPwLogin(password);
+
+                ArrayList<User> userList = database.loginUser(email, password);
+
+                if (userList.size() != 0) {
+                    User user = userList.get(0);
+                    Toast.makeText(LoginActivity.this, "Tài khoản hợp lệ!", Toast.LENGTH_SHORT).show();
+
+
+                    Intent intent = getIntent();
+                    String firstname = intent.getStringExtra("firstname");
+                    String lastname = intent.getStringExtra("lastname");
+
+                    Intent HomeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("firstname", firstname);
+                    bundle.putString("lastname", lastname);
+                    HomeIntent.putExtras(bundle);
+                    startActivity(HomeIntent);
+                } else
+                    Toast.makeText(LoginActivity.this, "Tài khoản không hợp lệ!", Toast.LENGTH_SHORT).show();
+
 
             }
         });
-
     }
 
-    private void checkValidLogin() {
+/*    private void checkValidLogin() {
         String email = emailField.getText().toString().trim();
         String password = pwField.getText().toString().trim();
 
@@ -111,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 
     boolean checkEmailLogin(String email) {
         if (email.isEmpty()) {

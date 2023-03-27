@@ -5,15 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tokostore020302.models.Product;
+import com.example.tokostore020302.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "product.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 10;
 
     public ProductDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -21,16 +24,20 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_PRODUCTS_TABLE = "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, brand TEXT, description TEXT, price REAL, image TEXT)";
+//        String CREATE_PRODUCTS_TABLE = "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, brand TEXT, description TEXT, price REAL, image TEXT)";
 
-        db.execSQL(CREATE_PRODUCTS_TABLE);
+//        String CREATE_USERS_TABLE = "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT, lastname TEXT, address TEXT, email TEXT, password TEXT)";
+
+        //db.execSQL(CREATE_PRODUCTS_TABLE);
+        //db.execSQL(CREATE_USERS_TABLE);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //        String DROP_PRODUCTS_TABLE = "DROP TABLE IF EXISTS products";
-        //        db.execSQL(DROP_PRODUCTS_TABLE);
-        //        onCreate(db);
+//        String DROP_USERS_TABLE = "DROP TABLE IF EXISTS users";
+//        db.execSQL(DROP_USERS_TABLE);
+//        onCreate(db);
     }
 
 
@@ -101,5 +108,47 @@ public class ProductDatabase extends SQLiteOpenHelper {
     }
 
 
+    //BẢNG users
+    public boolean registerUser(User user) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("firstname", user.getFirstname());
+        values.put("lastname", user.getLastname());
+        values.put("address", user.getAddress());
+        values.put("email", user.getEmail());
+        values.put("password", user.getPassword());
+
+        db.insert("users", null, values);
+
+        return true;
+    }
+
+    public ArrayList<User> loginUser(String email, String password) {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<User> usersList = new ArrayList<User>();
+
+        try {
+            String query = "SELECT * FROM users WHERE email=? AND password=?";
+            String[] selectionArgs = { email, password };
+            Cursor cursor = db.rawQuery(query, selectionArgs);
+            if (cursor.moveToFirst()) {
+                do {
+                    User user = new User();
+                    user.setEmail(cursor.getString(0));
+                    user.setPassword(cursor.getString(1));
+                    usersList.add(user);
+                }
+                while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage());
+
+        } finally {
+            db.close();
+        }
+
+        return usersList;
+    }
 
 }
