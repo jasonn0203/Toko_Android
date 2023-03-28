@@ -130,7 +130,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
         try {
             String query = "SELECT * FROM users WHERE email=? AND password=?";
-            String[] selectionArgs = { email, password };
+            String[] selectionArgs = {email, password};
             Cursor cursor = db.rawQuery(query, selectionArgs);
             if (cursor.moveToFirst()) {
                 do {

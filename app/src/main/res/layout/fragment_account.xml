@@ -27,6 +27,7 @@
                 android:id="@+id/roundedImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:src="@drawable/user_avatar"
                 android:background="@color/white"
                 android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>

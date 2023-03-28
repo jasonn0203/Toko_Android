@@ -181,7 +181,6 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
             }
         }
 
-
         //TH không trùng khớp
         if (!founded) {
             noProdFoundImg.setImageResource(R.drawable.no_product_found);
