@@ -28,8 +28,12 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
 //        String CREATE_USERS_TABLE = "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT, lastname TEXT, address TEXT, email TEXT, password TEXT)";
 
+        String CREATE_CART_TABLE = "CREATE TABLE cart (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, quantity INTEGER, totalprice REAL, FOREIGN KEY(product_id) REFERENCES products(id))";
+
+
         //db.execSQL(CREATE_PRODUCTS_TABLE);
         //db.execSQL(CREATE_USERS_TABLE);
+        db.execSQL(CREATE_CART_TABLE);
 
     }
 
@@ -150,5 +154,10 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
         return usersList;
     }
+
+
+
+    //BẢNG CART
+
 
 }
