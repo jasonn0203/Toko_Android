@@ -1,10 +1,14 @@
 package com.example.tokostore020302.models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private int id;
     String firstname;
     String lastname;
     String email;
+    String address;
+    String password;
 
     public User() {
 
@@ -19,8 +23,6 @@ public class User {
         this.password = password;
     }
 
-    String address;
-    String password;
 
     public int getId() {
         return id;

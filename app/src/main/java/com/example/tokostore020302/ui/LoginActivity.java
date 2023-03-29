@@ -18,6 +18,7 @@ import com.example.tokostore020302.models.User;
 import com.example.tokostore020302.models.Users;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -30,7 +31,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailField, pwField;
     private ProductDatabase database;
 
+    private SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
+
 
     //Chuyển đổi java thành XML
     private final Gson gson = new Gson();
@@ -40,8 +43,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Khai báo Shared (Không cần editor vì chỉ cần lấy Dữ Liệu)
+        //Khai báo Shared
         sharedPreferences = getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
 
         database = new ProductDatabase(this);
 
@@ -87,16 +92,28 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Tài khoản hợp lệ!", Toast.LENGTH_SHORT).show();
 
 
-                    Intent intent = getIntent();
-                    String firstname = intent.getStringExtra("firstname");
-                    String lastname = intent.getStringExtra("lastname");
+                    //Lấy user từ Shared
+                    String userPreferences = sharedPreferences.getString(SharedUtils.SHARE_KEY_USER, null);
+                    //
+                    user = gson.fromJson(userPreferences, User.class);
 
-                    Intent HomeIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("firstname", firstname);
-                    bundle.putString("lastname", lastname);
-                    HomeIntent.putExtras(bundle);
-                    startActivity(HomeIntent);
+                    SharedPreferences sharedPreferences = getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(SharedUtils.SHARE_KEY_USER, gson.toJson(user));
+                    editor.apply();
+
+
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//                    //Truyền bundle qua Intent
+//                    Bundle bundle = new Bundle();
+//                    //Truyền qua putSerializable vì "user" là object
+//                    bundle.putSerializable("username", user.getFirstname() + " " + user.getLastname());
+//
+//                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+
+
                 } else
                     Toast.makeText(LoginActivity.this, "Tài khoản không hợp lệ!", Toast.LENGTH_SHORT).show();
 
@@ -105,50 +122,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-/*    private void checkValidLogin() {
-        String email = emailField.getText().toString().trim();
-        String password = pwField.getText().toString().trim();
-
-        //Case admin
-        if (email.equals("admin") && password.equals("admin")) {
-            //Chuyển tới sang admin
-            Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-
-        //Lấy user từ Shared
-        String userPreferences = sharedPreferences.getString(SharedUtils.SHARE_KEY_USER, null);
-        //
-        Users user = gson.fromJson(userPreferences, Users.class);
-        //Trường hợp User không tồn tại trong Shared
-        if (user == null) {
-            Toast.makeText(LoginActivity.this, "Tài khoản không tồn tại!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        boolean isValidLogin = (email.equals(user.getEmail()) && password.equals(user.getPassword()));
-
-        if (checkEmailLogin(email) && checkPwLogin(password) && isValidLogin) {
-            Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-
-
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            //Truyền bundle qua Intent
-            Bundle bundle = new Bundle();
-            //Truyền qua putSerializable vì "user" là object
-            bundle.putSerializable(SharedUtils.SHARE_KEY_USER, user);
-
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "Email hoặc password không tồn tại!", Toast.LENGTH_SHORT).show();
-        }
-
-
-    }*/
 
     boolean checkEmailLogin(String email) {
         if (email.isEmpty()) {

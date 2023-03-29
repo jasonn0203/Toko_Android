@@ -94,9 +94,23 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
 
-                        // Tạo Bundle và thêm dữ liệu vào Bundle
-                        intent.putExtra("firstname", firstName);
-                        intent.putExtra("lastname", lastName);
+
+
+
+                        //Lưu user đã tạo vào SharedPreferences
+                        user.setFirstname(firstName);
+                        user.setLastname(lastName);
+
+
+                        //----Convert User từ Object --> String với format là JSON để lưu vào Shared----
+
+                        //Ép sang Json vì newUser là object và lưu vào biến userString
+                        String userString = gson.toJson(user);
+
+                        //editor sử dụng để thực hiện các thao tác chỉnh sửa dữ liệu trên SharedPreferences
+                        editor.putString(SharedUtils.SHARE_KEY_USER, userString);//Lưu chuỗi JSON
+                        editor.commit();//Lưu các thay đổi
+
                         startActivity(intent);
 
                     } else
