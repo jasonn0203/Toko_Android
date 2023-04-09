@@ -245,6 +245,7 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
 
         //Tạo bundle để gửi dữ liệu đến trang detail
         Bundle bundle = new Bundle();
+        bundle.putInt("id", product.getId());
         bundle.putString("name", product.getName());
         bundle.putString("desc", product.getDescription());
         bundle.putDouble("price", product.getPrice());

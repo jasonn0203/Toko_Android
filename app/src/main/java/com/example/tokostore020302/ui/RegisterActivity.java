@@ -198,7 +198,7 @@ public class RegisterActivity extends AppCompatActivity {
             pwField.setError("Password không được để trống!");
             isValid = false;
         } else if (pw.length() < 4) {
-            pwField.setError("Password phải nhiều hơn ký tự");
+            pwField.setError("Password phải nhiều hơn 4 ký tự");
             isValid = false;
         } else if (pw.length() > 12) {
             pwField.setError("Password không được quá 12 ký tự");

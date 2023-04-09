@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none"
+    android:paddingHorizontal="12dp"
     tools:context=".fragments.ProductDetailFragment">
 
 

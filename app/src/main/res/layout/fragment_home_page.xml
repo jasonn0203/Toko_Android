@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
+    android:paddingHorizontal="12dp"
     tools:context=".fragments.HomePageFragment">
 
     <LinearLayout

@@ -4,22 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     android:fillViewport="true"
+
     android:scrollbars="none"
     tools:context=".fragments.AccountFragment">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="24dp">
 
         <!--Hình SP-->
         <androidx.cardview.widget.CardView
             android:id="@+id/accountImage"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
             android:elevation="10dp"
             app:cardCornerRadius="1000dp">
 
@@ -27,9 +31,9 @@
                 android:id="@+id/roundedImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/user_avatar"
                 android:background="@color/white"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/user_avatar" />
         </androidx.cardview.widget.CardView>
 
         <!--    Ten KH-->
@@ -38,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountImage"
-            android:layout_marginTop="40dp"
+
             android:orientation="vertical">
 
             <!--TÊN KH-->
@@ -47,24 +51,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
+                android:layout_marginBottom="40dp"
                 android:textAlignment="center"
                 android:textAllCaps="true"
-                android:textColor="@color/primary"
+                android:textColor="@color/secondary"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
-            <!--Email KH-->
-            <TextView
-                android:id="@+id/accountEmail"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:orientation="vertical">
 
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="@color/primary"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtAccountInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/main_radius_background"
+                    android:paddingVertical="12dp"
+                    android:text="My Account"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtAboutStore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+
+                    android:background="@drawable/main_radius_background"
+                    android:paddingVertical="12dp"
+                    android:text="About Toko Store"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
 
         </LinearLayout>
