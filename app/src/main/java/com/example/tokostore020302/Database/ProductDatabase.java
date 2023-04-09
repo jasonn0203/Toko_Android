@@ -8,15 +8,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.tokostore020302.models.Cart;
 import com.example.tokostore020302.models.Product;
 import com.example.tokostore020302.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "product.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 15;
 
     public ProductDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,12 +31,20 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
 //        String CREATE_USERS_TABLE = "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT, lastname TEXT, address TEXT, email TEXT, password TEXT)";
 
-        String CREATE_CART_TABLE = "CREATE TABLE cart (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, quantity INTEGER, totalprice REAL, FOREIGN KEY(product_id) REFERENCES products(id))";
+        /*String CREATE_CART_TABLE = "CREATE TABLE cart (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, quantity INTEGER, FOREIGN KEY (product_id) REFERENCES products(id))";
+        db.execSQL(CREATE_CART_TABLE);*/
+
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='cart'", null);
+        if (cursor.getCount() == 0) {
+            String CREATE_CART_TABLE = "CREATE TABLE cart (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, quantity INTEGER, FOREIGN KEY (product_id) REFERENCES products(id))";
+            db.execSQL(CREATE_CART_TABLE);
+        }
+        cursor.close();
 
 
         //db.execSQL(CREATE_PRODUCTS_TABLE);
         //db.execSQL(CREATE_USERS_TABLE);
-        db.execSQL(CREATE_CART_TABLE);
+
 
     }
 
@@ -58,10 +69,8 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
         long rs = db.insert("products", null, values);
 
-        if (rs == -1)
-            return false;
-        else
-            return true;
+        if (rs == -1) return false;
+        else return true;
     }
 
 
@@ -142,8 +151,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
                     user.setEmail(cursor.getString(0));
                     user.setPassword(cursor.getString(1));
                     usersList.add(user);
-                }
-                while (cursor.moveToNext());
+                } while (cursor.moveToNext());
             }
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
@@ -156,8 +164,46 @@ public class ProductDatabase extends SQLiteOpenHelper {
     }
 
 
-
     //BẢNG CART
 
+    //thêm vào giỏ
+    public void addToCart(Product product, int quantity) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("product_id", product.getId());
+        values.put("quantity", quantity);
+        db.insert("cart", null, values);
+        db.close();
+    }
 
+    //xóa khỏi giỏ hàng
+    public void removeFromCart(Product product) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("cart", "product_id = ?", new String[]{String.valueOf(product.getId())});
+        db.close();
+    }
+
+
+    //lấy ra danh sách giỏ hàng
+
+    public List<Cart> getCartContents() {
+        List<Cart> cartContents = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT products.*, cart.product_id, cart.quantity FROM products INNER JOIN cart ON products.id = cart.product_id", null);
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            String brand = cursor.getString(cursor.getColumnIndexOrThrow("brand"));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+            double price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"));
+            String image = cursor.getString(cursor.getColumnIndexOrThrow("image"));
+            int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity"));
+            Product product = new Product(id, name, brand, description, price, image);
+            Cart cartItem = new Cart(product, quantity);
+            cartContents.add(cartItem);
+        }
+        cursor.close();
+        db.close();
+        return cartContents;
+    }
 }

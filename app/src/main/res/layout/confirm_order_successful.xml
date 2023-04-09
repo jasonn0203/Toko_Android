@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:padding="22dp">
+
+    <LinearLayout
+        android:id="@+id/customer_name_hey_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp">
+
+        <TextView
+            android:id="@+id/hey_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hey, "
+            android:textColor="@color/secondary"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" USER!"
+            android:textColor="@color/secondary"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/check_circle_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/customer_name_hey_text"
+        android:layout_marginTop="20dp"
+        android:scaleType="center"
+        android:src="@drawable/check_circle" />
+
+    <TextView
+        android:id="@+id/successful_order_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/check_circle_order"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Đặt hàng thành công"
+        android:textAllCaps="true"
+        android:textColor="@color/secondary"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/id_cart_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/successful_order_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="ID Giỏ Hàng"
+        android:textColor="@color/secondary"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/id_cart_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_cart_text"
+        android:layout_marginTop="16dp"
+        android:text="51562694"
+        android:textColor="@color/secondary"
+        tools:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/back_homepage_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_cart_number"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_transparent"
+        android:text="Về Trang Chủ"
+        tools:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
