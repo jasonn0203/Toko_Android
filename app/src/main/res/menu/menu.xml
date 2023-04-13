@@ -5,16 +5,14 @@
         android:id="@+id/homePanel"
         android:checked="true"
         android:icon="@drawable/baseline_home_24"
-        android:title="Home" />
+        android:title="Trang chủ" />
     <item
         android:id="@+id/ordersPanel"
-
         android:icon="@drawable/cart_vector"
-
-        android:title="Orders" />
+        android:title="Giỏ Hàng" />
     <item
         android:id="@+id/accountPanel"
         android:icon="@drawable/user"
 
-        android:title="Account" />
+        android:title="Tài khoản" />
 </menu>

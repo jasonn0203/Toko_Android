@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="60dp"
-        android:text="Welcome Back !"
+        android:text="Chào mừng quay trở lại !"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
         android:layout_marginTop="16dp"
         android:buttonTint="@color/primary"
         android:gravity="center"
-        android:text="Remember me"
+        android:text="Nhớ đăng nhập"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordField"
         tools:ignore="TouchTargetSizeCheck" />
@@ -107,7 +107,7 @@
         android:layout_marginEnd="24dp"
         android:drawableLeft="@drawable/question_circle"
         android:drawablePadding="4dp"
-        android:text="Forgot Password ?"
+        android:text="Quên mật khẩu ?"
         android:textAlignment="center"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordField" />
@@ -127,10 +127,9 @@
         android:id="@+id/existingText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="New user?"
+        android:layout_marginTop="12dp"
+        android:text="Chưa có tài khoản ?"
         android:textAlignment="center"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forwardBtn" />
@@ -140,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
-        android:text="Register"
+        android:text="Đăng ký ở đây !"
         android:textColor="@color/primary"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"

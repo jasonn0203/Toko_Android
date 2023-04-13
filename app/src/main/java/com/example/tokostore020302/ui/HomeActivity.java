@@ -54,20 +54,20 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.homePanel: //TRANG HOME
                         // Thay đổi tiêu đề của Action Bar
-                        Objects.requireNonNull(getSupportActionBar()).setTitle("Home");
+                        Objects.requireNonNull(getSupportActionBar()).setTitle("Trang chủ");
                         LoadFragment(new HomePageFragment());
                         break;
 
 
                     case R.id.ordersPanel: //TRANG ORDER
                         // Thay đổi tiêu đề của Action Bar
-                        Objects.requireNonNull(getSupportActionBar()).setTitle("Orders");
+                        Objects.requireNonNull(getSupportActionBar()).setTitle("Giỏ hàng của bạn");
                         LoadFragment(new OrderFragment());
                         break;
 
                     case R.id.accountPanel: //TRANG ACCOUNT
                         // Thay đổi tiêu đề của Action Bar
-                        Objects.requireNonNull(getSupportActionBar()).setTitle("Account");
+                        Objects.requireNonNull(getSupportActionBar()).setTitle("Tài khoản");
                         LoadFragment(new AccountFragment());
                         break;
                 }
