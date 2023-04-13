@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,12 +45,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.productName.setText(cartItem.getProduct().getName());
         holder.productPrice.setText(String.valueOf(cartItem.getProduct().getPrice()));
         holder.productQuantity.setText(String.valueOf(cartItem.getQuantity()));
+
+
+        // Kiểm tra số lượng sản phẩm để ẩn/hiện nút tăng số lượng
+        if (cartItem.getQuantity() >= 10) {
+            holder.quantityUp.setVisibility(View.GONE);
+            Toast.makeText(context, "Chỉ được thêm tối đa 10 sản phẩm !", Toast.LENGTH_SHORT).show();
+        } else {
+            holder.quantityUp.setVisibility(View.VISIBLE);
+        }
         holder.quantityUp.setOnClickListener(view -> listener.onQuantityUp(cartItem,position));
         holder.quantityDown.setOnClickListener(view -> listener.onQuantityDown(cartItem,position));
 
         holder.productImage.setImageBitmap(SharedUtils.convertToBitmapFromAssets(context, product.getImage()));
 
         holder.cartDeleteBtn.setOnClickListener(view -> listener.onButtonDeleteClicked(cartItem, position));
+
+
+
 
     }
 

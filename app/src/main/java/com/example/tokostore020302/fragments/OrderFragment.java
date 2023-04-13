@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tokostore020302.Database.ProductDatabase;
 import com.example.tokostore020302.R;
@@ -36,7 +38,6 @@ public class OrderFragment extends Fragment implements CartAdapter.OnItemClickLi
         announce_order_text = view.findViewById(R.id.order_text_announce);
         rvOrder = view.findViewById(R.id.rv_order);
         rvOrder.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         db = new ProductDatabase(getContext());
         cartList = getCartContents();
@@ -78,12 +79,25 @@ public class OrderFragment extends Fragment implements CartAdapter.OnItemClickLi
 
     @Override
     public void onQuantityUp(Cart cartItem, int position) {
-
+        int quantity = cartItem.getQuantity() + 1;
+        if (quantity <= 10) { // kiểm tra số lượng
+            cartItem.setQuantity(quantity);
+            db.updateCartItem(cartItem); // cập nhật số lượng mới vào CSDL
+            cartAdapter.notifyItemChanged(position); // cập nhật lại adapter
+        }
     }
 
     @Override
     public void onQuantityDown(Cart cartItem, int position) {
-
+        int quantity = cartItem.getQuantity();
+        if (cartItem.getQuantity() <= 1)
+            return;
+        else {
+            int quantityValue = quantity - 1;
+            cartItem.setQuantity(quantityValue);
+        }
+        db.updateCartItem(cartItem); // cập nhật số lượng mới vào CSDL
+        cartAdapter.notifyItemChanged(position); // cập nhật lại adapter
     }
 
     void displayAnnounceText() {

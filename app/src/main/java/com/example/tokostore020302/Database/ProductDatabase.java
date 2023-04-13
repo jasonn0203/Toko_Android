@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class ProductDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "product.db";
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;
 
     public ProductDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,12 +34,12 @@ public class ProductDatabase extends SQLiteOpenHelper {
         /*String CREATE_CART_TABLE = "CREATE TABLE cart (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, quantity INTEGER, FOREIGN KEY (product_id) REFERENCES products(id))";
         db.execSQL(CREATE_CART_TABLE);*/
 
-        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='cart'", null);
+/*        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='cart'", null);
         if (cursor.getCount() == 0) {
             String CREATE_CART_TABLE = "CREATE TABLE cart (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, quantity INTEGER, FOREIGN KEY (product_id) REFERENCES products(id))";
             db.execSQL(CREATE_CART_TABLE);
         }
-        cursor.close();
+        cursor.close();*/
 
 
         //db.execSQL(CREATE_PRODUCTS_TABLE);
@@ -169,10 +169,27 @@ public class ProductDatabase extends SQLiteOpenHelper {
     //thêm vào giỏ
     public void addToCart(Product product, int quantity) {
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("product_id", product.getId());
-        values.put("quantity", quantity);
-        db.insert("cart", null, values);
+
+        if (quantity == 10) {
+            return;
+        } else {
+            Cursor cursor = db.rawQuery("SELECT * FROM cart WHERE product_id=?", new String[]{String.valueOf(product.getId())});
+            if (cursor.getCount() > 0) { // sản phẩm đã có trong giỏ hàng
+                cursor.moveToFirst();
+                int currentQuantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity"));
+                if (currentQuantity == 10) {
+                    return;
+                } else {
+                    Cart cartItem = new Cart(product, currentQuantity + 1);
+                    updateCartItem(cartItem); // cập nhật lại giỏ hàng với số lượng mới
+                }
+            } else { // sản phẩm chưa có trong giỏ hàng
+                ContentValues values = new ContentValues();
+                values.put("product_id", product.getId());
+                values.put("quantity", quantity);
+                db.insert("cart", null, values);
+            }
+        }
         db.close();
     }
 
@@ -183,6 +200,14 @@ public class ProductDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Cập nhật giỏ hàng
+    public void updateCartItem(Cart cartItem) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("quantity", cartItem.getQuantity());
+        db.update("cart", values, "product_id = ?", new String[]{String.valueOf(cartItem.getProduct().getId())});
+        db.close();
+    }
 
     //lấy ra danh sách giỏ hàng
 
