@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    app:cardElevation="20dp">
+    app:cardElevation="5dp">
 
     <RelativeLayout
+        android:id="@+id/cart_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="18dp">
@@ -67,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            android:layout_toEndOf="@+id/cart_info"
+            android:layout_alignParentEnd="true"
             android:gravity="center"
             android:orientation="vertical">
 
