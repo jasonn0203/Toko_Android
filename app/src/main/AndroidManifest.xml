@@ -12,7 +12,10 @@
         android:theme="@style/Theme.TokoStore"
         tools:targetApi="31">
         <activity
-            android:name=".OrderDetailActivity"
+            android:name=".ui.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.OrderDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.AdminActivity"

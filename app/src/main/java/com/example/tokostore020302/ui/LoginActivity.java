@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView toRegister;
+    TextView toRegister, forgotPwBtn;
 
     ImageView forwardBtn;
 
@@ -56,6 +56,18 @@ public class LoginActivity extends AppCompatActivity {
         forwardBtn = (ImageView) findViewById((R.id.forwardBtn));
         emailField = (EditText) findViewById(R.id.emailField);
         pwField = (EditText) findViewById(R.id.passwordField);
+        forgotPwBtn = (TextView) findViewById(R.id.forgotPwBtn);
+
+
+        //Chuyển qua trang reset Password
+        forgotPwBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                intent.putExtra("emailValue", emailField.getText().toString());
+                startActivity(intent);
+            }
+        });
 
         //Chuyển qua trang Đăng ký
         toRegister.setOnClickListener(new View.OnClickListener() {

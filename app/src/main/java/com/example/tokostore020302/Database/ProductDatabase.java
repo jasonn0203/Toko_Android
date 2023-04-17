@@ -163,6 +163,15 @@ public class ProductDatabase extends SQLiteOpenHelper {
         return usersList;
     }
 
+    public void updatePassword(User user) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email=?", new String[]{user.getEmail()});
+        ContentValues values = new ContentValues();
+        values.put("password", user.getPassword());
+
+        db.update("users", values, "email=?", new String[]{user.getEmail()});
+    }
+
 
     //BẢNG CART
 
@@ -211,8 +220,8 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
     //lấy ra danh sách giỏ hàng
 
-    public List<Cart> getCartContents() {
-        List<Cart> cartContents = new ArrayList<>();
+    public ArrayList<Cart> getCartContents() {
+        ArrayList<Cart> cartContents = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT products.*, cart.product_id, cart.quantity FROM products INNER JOIN cart ON products.id = cart.product_id", null);
         while (cursor.moveToNext()) {
