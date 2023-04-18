@@ -172,6 +172,21 @@ public class ProductDatabase extends SQLiteOpenHelper {
         db.update("users", values, "email=?", new String[]{user.getEmail()});
     }
 
+    // Phương thức kiểm tra sự tồn tại của email trong cơ sở dữ liệu
+    public boolean checkEmailExists(String email) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email=?", new String[]{email});
+        //TH có tồn tại
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
+    }
+
+
+
+
+
+
 
     //BẢNG CART
 
@@ -201,6 +216,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
         }
         db.close();
     }
+
 
     //xóa khỏi giỏ hàng
     public void removeFromCart(Product product) {

@@ -17,15 +17,18 @@ import com.example.tokostore020302.models.Cart;
 import com.example.tokostore020302.models.Product;
 import com.example.tokostore020302.ui.SharedUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     Context context;
-    private List<Cart> cartList;
+    private ArrayList<Cart> cartList;
 
     private OnItemClickListener listener;
 
-    public CartAdapter(List<Cart> cartList, Context context) {
+    private  boolean isOnAnotherActivity = true;
+
+    public CartAdapter(ArrayList<Cart> cartList, Context context) {
         this.cartList = cartList;
         this.context = context;
     }
@@ -38,13 +41,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return new CartViewHolder(view);
     }
 
+
+    public void setIsOnAnotherActivity(boolean isOnAnotherActivity) {
+        this.isOnAnotherActivity = isOnAnotherActivity;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         Cart cartItem = cartList.get(position);
         Product product = cartItem.getProduct();
-        holder.productName.setText(cartItem.getProduct().getName());
-        holder.productPrice.setText(String.valueOf(cartItem.getProduct().getPrice()));
-        holder.productQuantity.setText(String.valueOf(cartItem.getQuantity()));
+        if (product != null) {
+            holder.productName.setText(cartItem.getProduct().getName());
+            holder.productPrice.setText(String.valueOf(cartItem.getProduct().getPrice()));
+            holder.productQuantity.setText(String.valueOf(cartItem.getQuantity()));
+            holder.productImage.setImageBitmap(SharedUtils.convertToBitmapFromAssets(context, product.getImage()));
+
+
+
+        }
 
 
         // Kiểm tra số lượng sản phẩm để ẩn/hiện nút tăng số lượng
@@ -54,14 +69,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         } else {
             holder.quantityUp.setVisibility(View.VISIBLE);
         }
-        holder.quantityUp.setOnClickListener(view -> listener.onQuantityUp(cartItem,position));
-        holder.quantityDown.setOnClickListener(view -> listener.onQuantityDown(cartItem,position));
+        holder.quantityUp.setOnClickListener(view -> listener.onQuantityUp(cartItem, position));
+        holder.quantityDown.setOnClickListener(view -> listener.onQuantityDown(cartItem, position));
 
-        holder.productImage.setImageBitmap(SharedUtils.convertToBitmapFromAssets(context, product.getImage()));
 
         holder.cartDeleteBtn.setOnClickListener(view -> listener.onButtonDeleteClicked(cartItem, position));
 
-
+        if (isOnAnotherActivity){
+            holder.quantityUp.setVisibility(View.GONE);
+            holder.quantityDown.setVisibility(View.GONE);
+            holder.cartDeleteBtn.setVisibility(View.GONE);
+        }
+        else {
+            holder.quantityUp.setVisibility(View.VISIBLE);
+            holder.quantityDown.setVisibility(View.VISIBLE);
+            holder.cartDeleteBtn.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -95,8 +118,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public interface OnItemClickListener {
 
         void onButtonDeleteClicked(Cart cartItem, int position);
-        void onQuantityUp(Cart cartItem,int position);
-        void onQuantityDown(Cart cartItem,int position);
+
+        void onQuantityUp(Cart cartItem, int position);
+
+        void onQuantityDown(Cart cartItem, int position);
     }
 
     public void setListener(OnItemClickListener listener) {

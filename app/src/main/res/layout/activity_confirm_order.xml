@@ -31,11 +31,12 @@
 
     <ImageView
         android:id="@+id/check_circle_order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_below="@id/customer_name_hey_text"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:scaleType="center"
+        android:scaleType="fitXY"
         android:src="@drawable/check_circle" />
 
     <TextView
@@ -52,34 +53,26 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/id_cart_text"
+        android:id="@+id/thank_cart_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/successful_order_text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:text="ID Giỏ Hàng"
+        android:text="Cảm ơn quý khách đã chọn Toko Store !"
         android:textColor="@color/secondary"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/id_cart_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/id_cart_text"
-        android:layout_marginTop="16dp"
-        android:text="51562694"
-        android:textColor="@color/secondary"
-        tools:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/back_homepage_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/id_cart_number"
+        android:layout_below="@+id/thank_cart_text"
         android:layout_marginTop="40dp"
-        android:background="@drawable/button_transparent"
+        android:backgroundTint="@color/secondary"
         android:text="Về Trang Chủ"
+        android:textColor="@color/primary"
         tools:layout_centerHorizontal="true" />
 
 

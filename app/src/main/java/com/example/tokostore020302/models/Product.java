@@ -1,8 +1,12 @@
 package com.example.tokostore020302.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Product {
+import androidx.annotation.NonNull;
+
+public class Product implements Parcelable {
     private final int id;
     private String name;
     private String brand;
@@ -25,6 +29,27 @@ public class Product {
         this.price = price;
         this.image = image;
     }
+
+    protected Product(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        brand = in.readString();
+        description = in.readString();
+        price = in.readDouble();
+        image = in.readString();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -68,5 +93,20 @@ public class Product {
 
     public String getImage() {
         return image;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(brand);
+        parcel.writeString(description);
+        parcel.writeDouble(price);
+        parcel.writeString(image);
     }
 }

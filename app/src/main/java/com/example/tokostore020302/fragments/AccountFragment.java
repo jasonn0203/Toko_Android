@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,14 +62,17 @@ public class AccountFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.logOutIcon) {
-            //Khai báo Shared
+            //Xoá bộ nhớ cache của ứng dụng
+            WebView webView = new WebView(getContext());
+            webView.clearCache(true);
+
+            //Xoá dữ liệu người dùng trong SharedPreferences trước khi đăng xuất
             onAttach(getContext());
             editor = getShared.edit();
-
-            //Clear dữ liệu người dùng trong Shared trước khi log out
             editor.remove(SharedUtils.SHARE_KEY_USER);
             editor.apply();
 
+            getActivity().finish();
 
             Intent intent = new Intent(getContext(), RegisterActivity.class);
             Toast.makeText(context, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
@@ -95,8 +99,7 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
         txtName = (TextView) view.findViewById(R.id.accountDisplayName);
-
-
+        db = new ProductDatabase(getContext());
 
 //        Bundle bundle = getActivity().getIntent().getExtras();
 //        if (bundle != null) {
@@ -107,9 +110,6 @@ public class AccountFragment extends Fragment {
         updateUserName();
 
 
-
-
-
         return view;
     }
 
@@ -118,6 +118,7 @@ public class AccountFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
         String userPreferences = sharedPreferences.getString(SharedUtils.SHARE_KEY_USER, null);
         User user = gson.fromJson(userPreferences, User.class);
+
         if (user != null) {
             String nameInfo = user.getFirstname() + " " + user.getLastname();
             txtName.setText(nameInfo);

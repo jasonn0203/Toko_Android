@@ -46,18 +46,26 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 String confirmNewPassword = repeatPwField.getText().toString();
 
                 //Kiểm tra người dùng nhập mật khẩu có trùng khớp không
+
                 if (confirmNewPassword.equals(newPassword)) {
-                    //Tạo đối tượng user mới và gán giá trị đã cập nhật cho đối tượng đó
-                    User user = new User();
-                    user.setEmail(email);
-                    user.setPassword(newPassword);
 
-                    db.updatePassword(user);
-                    //Thông báo cập nhật mk thành công
-                    Toast.makeText(ForgotPasswordActivity.this, "Cập nhật mật khẩu thành công!", Toast.LENGTH_SHORT).show();
+                    if (db.checkEmailExists(email)) {
+                        //Tạo đối tượng user mới và gán giá trị đã cập nhật cho đối tượng đó
+                        User user = new User();
+                        user.setEmail(email);
+                        user.setPassword(newPassword);
 
-                    //Quay về màn hình đăng nhập
-                    finish();
+                        db.updatePassword(user);
+                        //Thông báo cập nhật mk thành công
+                        Toast.makeText(ForgotPasswordActivity.this, "Cập nhật mật khẩu thành công!", Toast.LENGTH_SHORT).show();
+
+                        //Quay về màn hình đăng nhập
+                        finish();
+                    } else {
+                        // Thông báo email không tồn tại trong cơ sở dữ liệu
+                        Toast.makeText(ForgotPasswordActivity.this, "Email không tồn tại trong hệ thống!", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 } else {
                     //MK không khớp , yêu cầu nhập lại
@@ -69,4 +77,5 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
 
     }
+
 }

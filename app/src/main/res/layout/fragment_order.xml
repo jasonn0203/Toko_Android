@@ -6,34 +6,35 @@
     android:padding="16dp"
     tools:context=".fragments.OrderFragment">
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_order"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp"/>
 
         <TextView
             android:id="@+id/order_text_announce"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:text="Chưa có sản phẩm nào trong giỏ hàng !"
             android:textAlignment="center" />
 
-
         <Button
+            android:id="@+id/order_detail_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:backgroundTint="@color/primary"
             android:text="@string/btn_order_text"
             android:textColor="@color/secondary"
-            android:visibility="gone" />
-    </LinearLayout>
+            android:visibility="visible" />
+
+    </RelativeLayout>
 
 
 </androidx.core.widget.NestedScrollView>
