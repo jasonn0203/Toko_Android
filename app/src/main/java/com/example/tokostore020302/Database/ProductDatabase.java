@@ -148,8 +148,11 @@ public class ProductDatabase extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     User user = new User();
-                    user.setEmail(cursor.getString(0));
-                    user.setPassword(cursor.getString(1));
+                    user.setFirstname(cursor.getString(cursor.getColumnIndexOrThrow("firstname")));
+                    user.setLastname(cursor.getString(cursor.getColumnIndexOrThrow("lastname")));
+                    user.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address")));
+                    user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("email")));
+                    user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
                     usersList.add(user);
                 } while (cursor.moveToNext());
             }
@@ -182,9 +185,17 @@ public class ProductDatabase extends SQLiteOpenHelper {
         return exists;
     }
 
-
-
-
+    public String getUserAddress(int userId) {
+        String query = "SELECT address FROM users WHERE id = ?";
+        SQLiteDatabase db = getReadableDatabase();
+        String address = null;
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+        if (cursor.moveToFirst()) {
+            address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+        }
+        cursor.close();
+        return address;
+    }
 
 
 
@@ -255,5 +266,18 @@ public class ProductDatabase extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return cartContents;
+    }
+
+    //Tính tổng giá tiền trong đơn hàng
+    public double calculateTotalPrice() {
+        String query = "SELECT SUM(products.price * cart.quantity) AS total_price FROM cart JOIN products ON cart.product_id = products.id";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        double totalPrice = 0.0;
+        if (cursor.moveToFirst()) {
+            totalPrice = cursor.getDouble(cursor.getColumnIndexOrThrow("total_price"));
+        }
+        cursor.close();
+        return totalPrice;
     }
 }

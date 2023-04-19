@@ -63,17 +63,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-        <!--   <TextView
-               android:id="@+id/order_customer_phone"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="24dp"
-               android:layout_marginTop="10dp"
-               android:text="0123456789"
-               android:textStyle="bold"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/order_customer_address" />-->
-
         <ImageView
             android:id="@+id/seperate_line"
             android:layout_width="wrap_content"
@@ -137,7 +126,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
 
-        <TextView
+      <!--  <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -148,13 +137,13 @@
             android:textStyle="bold"
             android:layout_weight="0.25"
 
-           />
+           />-->
 
         <TextView
             android:id="@+id/order_total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75"
+            android:layout_weight="1"
             android:text="2000$"
             android:textColor="@color/primary"
             android:textSize="24sp"

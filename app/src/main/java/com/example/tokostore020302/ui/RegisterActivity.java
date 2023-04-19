@@ -40,9 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //Khai báo Shared
+        /*//Khai báo Shared
         sharedPreferences = getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        editor = sharedPreferences.edit();*/
 
         database = new ProductDatabase(this);
 
@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                         user.setLastname(lastName);
 
 
-                        //----Convert User từ Object --> String với format là JSON để lưu vào Shared----
+                        /*//----Convert User từ Object --> String với format là JSON để lưu vào Shared----
 
                         //Ép sang Json vì newUser là object và lưu vào biến userString
                         String userString = gson.toJson(user);
@@ -111,7 +111,22 @@ public class RegisterActivity extends AppCompatActivity {
                         editor.putString(SharedUtils.SHARE_KEY_USER, userString);//Lưu chuỗi JSON
                         editor.commit();//Lưu các thay đổi
 
+*/
+
+
+                        // Lưu thông tin người dùng vào SharedPreferences
+                        SharedPreferences sharedPreferences = getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("firstName", firstName);
+                        editor.putString("lastName", lastName);
+                        editor.putString("address", address);
+                        editor.putString("email", email);
+                        editor.putString("password", pw);
+                        editor.apply();
+
                         startActivity(intent);
+
+
 
                     } else
                         Toast.makeText(RegisterActivity.this, "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
