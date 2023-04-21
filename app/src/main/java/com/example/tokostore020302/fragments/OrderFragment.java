@@ -135,7 +135,7 @@ public class OrderFragment extends Fragment implements CartAdapter.OnItemClickLi
     }
 
     void displayAnnounceText() {
-        if (cartList.size() > 0) {
+        if (cartList != null && cartList.size() > 0) {
             announce_order_text.setVisibility(View.GONE);
             order_detail_btn.setVisibility(View.VISIBLE);
         } else {
