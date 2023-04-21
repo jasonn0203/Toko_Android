@@ -175,7 +175,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
         db.update("users", values, "email=?", new String[]{user.getEmail()});
     }
 
-    // Phương thức kiểm tra sự tồn tại của email trong cơ sở dữ liệu
+    // Phương thức kiểm tra sự tồn tại của email trong cơ sở dữ liệu 123
     public boolean checkEmailExists(String email) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email=?", new String[]{email});
@@ -184,19 +184,6 @@ public class ProductDatabase extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
-
-    public String getUserAddress(int userId) {
-        String query = "SELECT address FROM users WHERE id = ?";
-        SQLiteDatabase db = getReadableDatabase();
-        String address = null;
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
-        if (cursor.moveToFirst()) {
-            address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
-        }
-        cursor.close();
-        return address;
-    }
-
 
 
     //BẢNG CART
