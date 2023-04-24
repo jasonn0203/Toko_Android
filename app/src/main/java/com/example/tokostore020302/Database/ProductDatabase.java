@@ -2,6 +2,7 @@ package com.example.tokostore020302.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import com.example.tokostore020302.models.Cart;
 import com.example.tokostore020302.models.Product;
 import com.example.tokostore020302.models.User;
+import com.example.tokostore020302.ui.SharedUtils;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,7 +178,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
         db.update("users", values, "email=?", new String[]{user.getEmail()});
     }
 
-    // Phương thức kiểm tra sự tồn tại của email trong cơ sở dữ liệu 123
+    // Phương thức kiểm tra sự tồn tại của email trong cơ sở dữ liệu
     public boolean checkEmailExists(String email) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email=?", new String[]{email});
@@ -183,6 +186,28 @@ public class ProductDatabase extends SQLiteOpenHelper {
         boolean exists = (cursor.getCount() > 0);
         cursor.close();
         return exists;
+    }
+
+    public void updateUserInfo(User user, Context context) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("firstname", user.getFirstname());
+        values.put("lastname", user.getLastname());
+        values.put("address", user.getAddress());
+
+        db.update("users", values, "id = ?", new String[]{String.valueOf(user.getId())});
+
+        db.close();
+
+        //Cập nhật lại trong Shared Preferences
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SharedUtils.SHARE_KEY_USER, new Gson().toJson(user));
+        editor.apply();
+
+
     }
 
 

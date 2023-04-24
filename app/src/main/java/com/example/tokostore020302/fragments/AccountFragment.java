@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import com.example.tokostore020302.Database.ProductDatabase;
 import com.example.tokostore020302.R;
 import com.example.tokostore020302.models.User;
 import com.example.tokostore020302.models.Users;
+import com.example.tokostore020302.ui.EditAccountActivity;
 import com.example.tokostore020302.ui.RegisterActivity;
 import com.example.tokostore020302.ui.SharedUtils;
 import com.google.gson.Gson;
@@ -36,7 +38,7 @@ public class AccountFragment extends Fragment {
     ImageView accountImg;
     ProductDatabase db;
     Context context;
-    TextView txtName, txtEmail;
+    TextView txtName, txtEmail, accountInfo, aboutStore;
     private SharedPreferences.Editor editor;
     SharedPreferences getShared;
 
@@ -99,19 +101,33 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
         txtName = (TextView) view.findViewById(R.id.accountDisplayName);
+        accountInfo = view.findViewById(R.id.txtAccountInfo);
         db = new ProductDatabase(getContext());
 
-//        Bundle bundle = getActivity().getIntent().getExtras();
-//        if (bundle != null) {
-//            String username = bundle.getString("username");
-//            String nameInfo = username;
-//            txtName.setText(nameInfo);
 
         updateUserName();
+
+        accountInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
+                String userPreferences = sharedPreferences.getString(SharedUtils.SHARE_KEY_USER, null);
+                User user = gson.fromJson(userPreferences, User.class);
+                Intent intent = new Intent(getActivity(), EditAccountActivity.class);
+                intent.putExtra("firstname",user.getFirstname());
+                intent.putExtra("lastname",user.getLastname());
+                intent.putExtra("address",user.getAddress());
+
+                startActivity(intent);
+            }
+        });
 
 
         return view;
     }
+
+
+
 
 
     private void updateUserName() {

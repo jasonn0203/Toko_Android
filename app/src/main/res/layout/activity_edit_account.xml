@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="12dp"
+    tools:context=".ui.EditAccountActivity">
+
+    <TextView
+        android:id="@+id/editAccText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="60dp"
+        android:text="Chỉnh sửa thông tin"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editAccText"
+        app:layout_constraintVertical_bias="0.326">
+
+
+        <TextView
+
+            android:id="@+id/editFirstNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/first_name_label"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editAccText" />
+
+
+        <EditText
+            android:id="@+id/editFirstNameField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="24dp"
+            android:autofillHints="name"
+            android:background="@drawable/custom_input"
+            android:drawableEnd="@drawable/user"
+            android:drawablePadding="4dp"
+            android:hint="@string/first_name_hint"
+            android:inputType="textPersonName"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"
+            android:singleLine="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editFirstNameLabel"
+            tools:ignore="VisualLintTextFieldSize" />
+
+
+        <TextView
+            android:id="@+id/editLastNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/last_name_label"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editFirstNameField" />
+
+
+        <EditText
+            android:id="@+id/editLastNameField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="24dp"
+            android:autofillHints="name"
+            android:background="@drawable/custom_input"
+            android:drawableEnd="@drawable/user"
+            android:drawablePadding="4dp"
+            android:hint="@string/last_name_hint"
+            android:inputType="textPersonName"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"
+            android:singleLine="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editLastNameLabel"
+            tools:ignore="VisualLintTextFieldSize" />
+
+        <TextView
+            android:id="@+id/editAddressLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/address_label"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editLastNameField" />
+
+
+        <EditText
+            android:id="@+id/editAddressField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="24dp"
+            android:autofillHints="name"
+            android:background="@drawable/custom_input"
+            android:drawableEnd="@drawable/baseline_address"
+            android:drawablePadding="4dp"
+            android:hint="@string/address_hint"
+            android:inputType="textPersonName"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"
+            android:singleLine="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editAddressLabel"
+            tools:ignore="VisualLintTextFieldSize" />
+
+        <Button
+            android:id="@+id/editUpdateBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="48dp"
+            android:backgroundTint="@color/primary"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"
+            android:text="Cập Nhật"
+            android:textColor="@color/secondary"
+            app:layout_constraintTop_toBottomOf="@id/editAddressField" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
