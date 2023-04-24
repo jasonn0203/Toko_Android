@@ -15,6 +15,7 @@ import com.example.tokostore020302.models.Product;
 import com.example.tokostore020302.ui.SharedUtils;
 
 import java.util.List;
+import java.util.Locale;
 
 
 //ADAPTER CHO TRANG HOME
@@ -47,7 +48,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         holder.productImageView.setImageBitmap(SharedUtils.convertToBitmapFromAssets(context, product.getImage()));
 
         holder.productNameTxt.setText(product.getName());
-        holder.productPriceTxt.setText(String.valueOf(product.getPrice()));
+        holder.productPriceTxt.setText((String.format(Locale.US, "%,d $", (int) product.getPrice())));
 
         //Click vào sản phẩm
         holder.itemView.setOnClickListener(view -> listener.onItemClick(product));

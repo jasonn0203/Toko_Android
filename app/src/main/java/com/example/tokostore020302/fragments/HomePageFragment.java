@@ -79,23 +79,25 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.searchIcon) {
-            searchLayout = getView().findViewById(R.id.searchContainer);
+        switch (item.getItemId()) {
+            case R.id.searchIcon:
+                searchLayout = getView().findViewById(R.id.searchContainer);
 
-            //Toggle hiển thị ô search
-            if (!isSearchLayoutVisible) {
-                searchLayout.setVisibility(View.VISIBLE);
-                isSearchLayoutVisible = true;
-            } else {
-                searchLayout.setVisibility(View.GONE);
-                isSearchLayoutVisible = false;
+                // Toggle hiển thị ô search
+                if (!isSearchLayoutVisible) {
+                    searchLayout.setVisibility(View.VISIBLE);
+                    isSearchLayoutVisible = true;
+                } else {
+                    searchLayout.setVisibility(View.GONE);
+                    isSearchLayoutVisible = false;
+                }
 
-            }
-            return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

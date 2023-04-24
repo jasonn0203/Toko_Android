@@ -19,6 +19,7 @@ import com.example.tokostore020302.ui.SharedUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     Context context;
@@ -26,7 +27,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     private OnItemClickListener listener;
 
-    private  boolean isOnAnotherActivity = true;
+    private boolean isOnAnotherActivity = true;
 
     public CartAdapter(ArrayList<Cart> cartList, Context context) {
         this.cartList = cartList;
@@ -52,11 +53,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         Cart cartItem = cartList.get(position);
         Product product = cartItem.getProduct();
         if (product != null) {
-            holder.productName.setText(cartItem.getProduct().getName());
-            holder.productPrice.setText(String.valueOf(cartItem.getProduct().getPrice()));
+            holder.productName.setText(product.getName());
+            holder.productPrice.setText(String.format(Locale.US, "%,d $", (int) cartItem.getProduct().getPrice()));
             holder.productQuantity.setText(String.valueOf(cartItem.getQuantity()));
             holder.productImage.setImageBitmap(SharedUtils.convertToBitmapFromAssets(context, product.getImage()));
-
 
 
         }
@@ -75,12 +75,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         holder.cartDeleteBtn.setOnClickListener(view -> listener.onButtonDeleteClicked(cartItem, position));
 
-        if (isOnAnotherActivity){
+        if (isOnAnotherActivity) {
             holder.quantityUp.setVisibility(View.GONE);
             holder.quantityDown.setVisibility(View.GONE);
             holder.cartDeleteBtn.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             holder.quantityUp.setVisibility(View.VISIBLE);
             holder.quantityDown.setVisibility(View.VISIBLE);
             holder.cartDeleteBtn.setVisibility(View.VISIBLE);

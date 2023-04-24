@@ -18,6 +18,7 @@ import com.example.tokostore020302.models.Product;
 import com.example.tokostore020302.ui.SharedUtils;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
@@ -44,11 +45,10 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<CartAdapter.CartVie
         Product product = cartItem.getProduct();
         if (product != null) {
             holder.productName.setText(product.getName());
-            holder.productPrice.setText(String.valueOf(product.getPrice()));
+            holder.productPrice.setText((String.format(Locale.US, "%,d $", (int) product.getPrice())));
             holder.productQuantity.setText(String.valueOf(cartItem.getQuantity()));
             holder.productImage.setImageBitmap(SharedUtils.convertToBitmapFromAssets(context, product.getImage()));
         }
-
 
 
     }
