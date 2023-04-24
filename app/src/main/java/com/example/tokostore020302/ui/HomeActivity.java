@@ -1,5 +1,8 @@
 package com.example.tokostore020302.ui;
 
+import static android.R.id.home;
+import static android.app.PendingIntent.getActivity;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -31,19 +34,27 @@ public class HomeActivity extends AppCompatActivity {
         // Thay đổi màu sắc của Action Bar
         getSupportActionBar().setBackgroundDrawable
                 (new ColorDrawable(getResources().getColor(R.color.primary)));
+
         //Hiển thị nút back action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
-
-
 
 
         btMenu = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         btMenu.setOnItemSelectedListener(bottomNavItemClicked());
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @NonNull
     private NavigationBarView.OnItemSelectedListener bottomNavItemClicked() {

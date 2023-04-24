@@ -13,6 +13,8 @@ import com.example.tokostore020302.Database.ProductDatabase;
 import com.example.tokostore020302.R;
 import com.example.tokostore020302.models.User;
 
+import java.util.Objects;
+
 public class ForgotPasswordActivity extends AppCompatActivity {
     EditText emailField, pwField, repeatPwField;
     ImageView resetPwBtn;
@@ -28,7 +30,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         pwField = findViewById(R.id.passwordField);
         repeatPwField = findViewById(R.id.repeatPasswordField);
         resetPwBtn = findViewById(R.id.resetPwBtn);
-
+        Objects.requireNonNull(getSupportActionBar()).hide();
         db = new ProductDatabase(this);
 
         Intent intent = getIntent();
