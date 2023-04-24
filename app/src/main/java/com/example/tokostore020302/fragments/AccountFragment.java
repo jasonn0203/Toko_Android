@@ -26,6 +26,7 @@ import com.example.tokostore020302.R;
 import com.example.tokostore020302.models.User;
 import com.example.tokostore020302.models.Users;
 import com.example.tokostore020302.ui.EditAccountActivity;
+import com.example.tokostore020302.ui.LoginActivity;
 import com.example.tokostore020302.ui.RegisterActivity;
 import com.example.tokostore020302.ui.SharedUtils;
 import com.google.gson.Gson;
@@ -41,6 +42,7 @@ public class AccountFragment extends Fragment {
     TextView txtName, txtEmail, accountInfo, aboutStore;
     private SharedPreferences.Editor editor;
     SharedPreferences getShared;
+    User user;
 
     //Chuyển đổi java thành XML
     private final Gson gson = new Gson();
@@ -64,21 +66,28 @@ public class AccountFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.logOutIcon) {
-            //Xoá bộ nhớ cache của ứng dụng
+           /* //Xoá bộ nhớ cache của ứng dụng
             WebView webView = new WebView(getContext());
             webView.clearCache(true);
 
-            //Xoá dữ liệu người dùng trong SharedPreferences trước khi đăng xuất
+            //Xoá dữ liệu người dùng mới nhất trong SharedPreferences trước khi đăng xuất
             onAttach(getContext());
             editor = getShared.edit();
-            editor.remove(SharedUtils.SHARE_KEY_USER);
+            editor.remove(SharedUtils.SHARE_KEY_USER); // xóa khóa mới
             editor.apply();
 
             getActivity().finish();
 
-            Intent intent = new Intent(getContext(), RegisterActivity.class);
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            Toast.makeText(context, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
+            startActivity(intent);*/
+
+            db.logOut(user, getContext());
+            Intent intent = new Intent(getContext(), LoginActivity.class);
             Toast.makeText(context, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
             startActivity(intent);
+
+            getActivity().finish();
 
             return true;
         }
@@ -105,8 +114,9 @@ public class AccountFragment extends Fragment {
         db = new ProductDatabase(getContext());
 
 
-        updateUserName();
-
+        user = new User();
+        String nameInfo = user.getFirstname() + " " + user.getLastname();
+        txtName.setText(nameInfo);
         accountInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,9 +124,9 @@ public class AccountFragment extends Fragment {
                 String userPreferences = sharedPreferences.getString(SharedUtils.SHARE_KEY_USER, null);
                 User user = gson.fromJson(userPreferences, User.class);
                 Intent intent = new Intent(getActivity(), EditAccountActivity.class);
-                intent.putExtra("firstname",user.getFirstname());
-                intent.putExtra("lastname",user.getLastname());
-                intent.putExtra("address",user.getAddress());
+                intent.putExtra("firstname", user.getFirstname());
+                intent.putExtra("lastname", user.getLastname());
+                intent.putExtra("address", user.getAddress());
 
                 startActivity(intent);
             }
@@ -125,9 +135,6 @@ public class AccountFragment extends Fragment {
 
         return view;
     }
-
-
-
 
 
     private void updateUserName() {

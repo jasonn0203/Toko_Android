@@ -210,6 +210,20 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
     }
 
+    public void logOut(User user,Context context) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("users", "id = ?", new String[]{String.valueOf(user.getId())});
+        db.close();
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(SharedUtils.SHARE_KEY_USER);
+        editor.apply();
+
+
+    }
+
+
 
     //BẢNG CART
 
