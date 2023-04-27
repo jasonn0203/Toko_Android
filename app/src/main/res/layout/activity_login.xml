@@ -118,7 +118,7 @@
         android:id="@+id/forwardBtn"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/forward_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -146,5 +146,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/existingText" />
+
+    <ImageView
+        android:id="@+id/google_login"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/google_login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toRegisterBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

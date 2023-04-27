@@ -38,6 +38,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private ProductDatabase db;
     ArrayList<Cart> cartArrayList;
 
+
     Button orderBtn;
 
     @Override
@@ -71,8 +72,12 @@ public class OrderDetailActivity extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 Intent intent = new Intent(OrderDetailActivity.this, ConfirmOrderActivity.class);
+
                 startActivity(intent);
+
             }
         });
 
@@ -94,4 +99,8 @@ public class OrderDetailActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
 }

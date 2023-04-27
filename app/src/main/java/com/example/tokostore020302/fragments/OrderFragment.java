@@ -37,6 +37,8 @@ public class OrderFragment extends Fragment implements CartAdapter.OnItemClickLi
 
     ArrayList<Cart> cartList;
 
+    private static final int ORDER_DETAIL_REQUEST_CODE = 1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,11 +76,13 @@ public class OrderFragment extends Fragment implements CartAdapter.OnItemClickLi
 
             intent.putParcelableArrayListExtra("cart_list", cartList);
 
+
             startActivity(intent);
 
 
         };
     }
+
 
     //Hien thi danh sach sp trong gio hang
     public ArrayList<Cart> getCartContents() {

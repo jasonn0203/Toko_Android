@@ -15,6 +15,7 @@ import java.io.InputStream;
 public class SharedUtils {
     public static final String SHARE_PREFERENCES_APP = "shared_preferences_app";
     public static final String SHARE_KEY_USER = "key_user";
+    public static final String IS_GOOGLE_LOGIN = "isGoogleLogin";
 
     public static final String SHARE_KEY_LATEST_USER = "key_user_latest";
 
