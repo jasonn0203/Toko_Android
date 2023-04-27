@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
     android:paddingHorizontal="12dp"
+    android:scrollbars="none"
     tools:context=".fragments.HomePageFragment">
 
     <LinearLayout
@@ -140,6 +140,20 @@
 
 
         </HorizontalScrollView>
+
+
+        <TextView
+            android:id="@+id/filter_product_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="12dp"
+            android:drawableRight="@drawable/baseline_filter_alt_24"
+            android:drawablePadding="4dp"
+            android:text="Lọc"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtNewProducts"

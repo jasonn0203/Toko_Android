@@ -1,5 +1,6 @@
 package com.example.tokostore020302.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -13,16 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -33,6 +37,9 @@ import com.example.tokostore020302.adapters.HomeProductAdapter;
 import com.example.tokostore020302.models.Product;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomePageFragment extends Fragment implements HomeProductAdapter.OnItemClickListener {
@@ -51,6 +58,10 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
     private List<Product> products = new ArrayList<>();
     RecyclerView rvHomeProduct;
     ProductDatabase db;
+
+    TextView filterBtn;
+
+    PopupWindow popupWindow;
 
 
     ImageButton searchBtn;
@@ -130,9 +141,11 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
         searchInput = (EditText) view.findViewById(R.id.searchInput);
         searchBtn = (ImageButton) view.findViewById(R.id.btnSearch);
         noProdFoundImg = (ImageView) view.findViewById(R.id.img_no_product);
+        filterBtn = (TextView) view.findViewById(R.id.filter_product_btn);
 
 
         rvHomeProduct = (RecyclerView) view.findViewById(R.id.product_grid);
+
 
         //Adapter
         adapter = new HomeProductAdapter(products, context, this);
@@ -156,8 +169,137 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
         //Search sản phẩm
         searchInput.addTextChangedListener(queryOnSearchInput());
 
+        filterBtn.setOnClickListener(filterPopup());
+
 
         return view;
+    }
+
+
+    //Các chức năng lọc sản phẩm
+    @NonNull
+    private View.OnClickListener filterPopup() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // inflate layout XML cho popup
+                View popupView = LayoutInflater.from(context).inflate(R.layout.custom_popup, null);
+
+                // tạo popup window với nội dung đã inflate
+                popupWindow = new PopupWindow(popupView,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT);
+
+                //Tạo animation cho popup
+                popupWindow.setAnimationStyle(R.anim.popup_anim);
+
+                // hiển thị popup fullscreen
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+                Button closePopup = popupView.findViewById(R.id.close_button_popup);
+
+                //Đóng popup
+                if (closePopup != null) {
+                    closePopup.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            popupWindow.dismiss();
+                        }
+                    });
+                }
+
+                //Lọc theo giá tiền từ thấp đến cao
+                LinearLayout price_low_to_high = popupView.findViewById(R.id.price_low_to_high);
+
+                price_low_to_high.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Xử lý điều kiện giá từ thấp đến cao và cập nhật lại recycleview
+
+                        /*Sử dụng một Comparator để so sánh giá tiền của hai sản phẩm và trả về kết quả 1 nếu giá của sản phẩm thứ nhất nhỏ hơn giá của sản phẩm thứ hai, -1 nếu giá của sản phẩm thứ nhất lớn hơn giá của sản phẩm thứ hai, hoặc 0 nếu hai sản phẩm có giá bằng nhau.*/
+
+                        Comparator<Product> productComparator = new Comparator<Product>() {
+                            @Override
+                            public int compare(Product product1, Product product2) {
+                                if (product1.getPrice() < product2.getPrice()) {
+                                    return -1;
+                                } else if (product1.getPrice() > product2.getPrice()) {
+                                    return 1;
+                                } else return 0;
+                            }
+                        };
+
+                        //Cập nhật lại adapter
+                        Collections.sort(products, productComparator);
+                        adapter.notifyDataSetChanged();
+
+                        popupWindow.dismiss();
+                        txtProduct.setText("Sản phẩm từ giá thấp đến cao !");
+
+                    }
+                });
+
+                //Giá tiền từ cao đến thấp
+                LinearLayout price_high_to_low = popupView.findViewById(R.id.price_high_to_low);
+
+                price_high_to_low.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Comparator<Product> productComparator = new Comparator<Product>() {
+                            @Override
+                            public int compare(Product product1, Product product2) {
+                                if (product1.getPrice() > product2.getPrice()) {
+                                    return -1;
+                                } else if (product1.getPrice() < product2.getPrice()) {
+                                    return 1;
+                                } else return 0;
+                            }
+                        };
+
+                        //Cập nhật lại adapter
+                        Collections.sort(products, productComparator);
+                        adapter.notifyDataSetChanged();
+
+                        popupWindow.dismiss();
+                        txtProduct.setText("Sản phẩm từ giá cao đến thấp !");
+                    }
+                });
+
+
+                //Sắp xếp theo thứ tự alpha b chữ cái
+
+                LinearLayout alphaBFilter = popupView.findViewById(R.id.sort_by_alpha);
+                alphaBFilter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Comparator<Product> alphaBProductComparator = new Comparator<Product>() {
+                            @Override
+                            public int compare(Product product1, Product product2) {
+                                return product1.getName().compareToIgnoreCase(product2.getName());
+                            }
+
+                        };
+
+                        Collections.sort(products,alphaBProductComparator);
+                        adapter.notifyDataSetChanged();
+                        popupWindow.dismiss();
+                        txtProduct.setText("Sản phẩm sắp xếp từ A -> Z !");
+                    }
+                });
+
+
+
+            }
+        };
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
     }
 
 
@@ -229,6 +371,7 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
         };
     }
 
+    //Hiển thị banner quảng cáo
     private void Banner(ViewFlipper view) {
         //Slider quảng cáo
         ViewFlipper simpleViewFlipper = view;
@@ -236,7 +379,7 @@ public class HomePageFragment extends Fragment implements HomeProductAdapter.OnI
     }
 
 
-    //Click vào để đến trang detail
+    //Click vào để đến trang chi tiết sản phẩm
     @Override
     public void onItemClick(Product product) {
         ProductDetailFragment detailFragment = new ProductDetailFragment();
