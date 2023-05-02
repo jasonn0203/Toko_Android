@@ -170,6 +170,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     firebaseDatabase.getReference("GoogleUser").child(user.getUid()).setValue(googleUser);
 
+                    SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isGoogleSignIn", true); // Nếu đăng nhập bằng Google
                     editor.apply();
 
@@ -213,28 +215,20 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Tài khoản hợp lệ!", Toast.LENGTH_SHORT).show();
 
 
-                   /* //Lấy user từ Shared
-                    String userPreferences = sharedPreferences.getString(SharedUtils.SHARE_KEY_USER, null);
-                    //
-                    user = gson.fromJson(userPreferences, User.class);
-
                     SharedPreferences sharedPreferences = getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(SharedUtils.SHARE_KEY_USER, gson.toJson(user));
-                    editor.apply();*/
+                    editor.apply();
 
 
-                    SharedPreferences sharedPreferences = getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(SharedUtils.SHARE_KEY_USER, gson.toJson(user));
+                    editor.putBoolean("isGoogleSignIn", false); // Nếu đăng nhập bằng Google
                     editor.apply();
 
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 
                     startActivity(intent);
-                    editor.putBoolean("isGoogleSignIn", false); // Nếu đăng nhập bằng SQLITE
-                    editor.apply();
+
                     finish();
 
 

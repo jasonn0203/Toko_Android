@@ -1,5 +1,7 @@
 package com.example.tokostore020302.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +30,7 @@ import com.example.tokostore020302.R;
 import com.example.tokostore020302.models.GoogleUser;
 import com.example.tokostore020302.models.User;
 import com.example.tokostore020302.models.Users;
+import com.example.tokostore020302.ui.AboutActivity;
 import com.example.tokostore020302.ui.EditAccountActivity;
 import com.example.tokostore020302.ui.LoginActivity;
 import com.example.tokostore020302.ui.RegisterActivity;
@@ -57,6 +60,7 @@ public class AccountFragment extends Fragment {
     TextView txtName, txtEmail, accountInfo, aboutStore;
     private SharedPreferences.Editor editor;
     SharedPreferences getShared;
+
     User user;
 
     //Chuyển đổi java thành XML
@@ -65,6 +69,7 @@ public class AccountFragment extends Fragment {
 
     GoogleUser googleUser = new GoogleUser();
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("GoogleUser").child(firebaseUser.getUid());
 
 
@@ -73,7 +78,7 @@ public class AccountFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        getShared = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        getShared = context.getSharedPreferences("MyPrefs", MODE_PRIVATE);
     }
 
     @Override
@@ -87,10 +92,26 @@ public class AccountFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.logOutIcon) {
 
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SharedUtils.SHARE_KEY_USER, Context.MODE_PRIVATE);
-            boolean isGoogleSignIn = sharedPreferences.getBoolean("isGoogleSignIn", false); // Mặc định là false
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            if (sharedPreferences.getBoolean("isGoogleSignIn", false)) {
+                // Đăng xuất theo kiểu của Google
 
-            if (isGoogleSignIn) {
+                GoogleSignIn.getClient(getActivity(), GoogleSignInOptions.DEFAULT_SIGN_IN).signOut();
+            } else {
+                // Đăng xuất theo kiểu của SQLite
+                db.logOut(user, requireContext());
+                editor.clear();
+                editor.apply();
+            }
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            Toast.makeText(context, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+            getActivity().finish();
+
+
+
+           /* if (isGoogleSignIn) {
                 FirebaseAuth.getInstance().signOut();
                 getActivity().finish();
 
@@ -100,13 +121,14 @@ public class AccountFragment extends Fragment {
                 Toast.makeText(context, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
                 getActivity().finish();
-            }
+            }*/
 
 
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,6 +154,19 @@ public class AccountFragment extends Fragment {
         String nameInfo = user.getFirstname() + " " + user.getLastname();
         txtName.setText(nameInfo);
         accountInfo.setOnClickListener(editAccountInfo());
+
+
+        aboutStore = view.findViewById(R.id.txtAboutStore);
+        aboutStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
 
 
         /*Khi đăng nhập bằng Google*/
@@ -173,7 +208,7 @@ public class AccountFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, MODE_PRIVATE);
                 String userPreferences = sharedPreferences.getString(SharedUtils.SHARE_KEY_USER, null);
                 User user = gson.fromJson(userPreferences, User.class);
                 Intent intent = new Intent(getActivity(), EditAccountActivity.class);
@@ -188,7 +223,7 @@ public class AccountFragment extends Fragment {
 
 
     private void updateUserName() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SharedUtils.SHARE_PREFERENCES_APP, MODE_PRIVATE);
         String userPreferences = sharedPreferences.getString(SharedUtils.SHARE_KEY_USER, null);
         User user = gson.fromJson(userPreferences, User.class);
 

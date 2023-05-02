@@ -1,5 +1,6 @@
 package com.example.tokostore020302.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -54,9 +55,13 @@ public class OrderFragment extends Fragment implements CartAdapter.OnItemClickLi
 
         //Load danh sách giỏ hàng
         cartList = getCartContents();
+
+
         cartAdapter = new CartAdapter(cartList, getContext());
+
         cartAdapter.setListener(this);
         rvOrder.setAdapter(cartAdapter);
+
         cartAdapter.setIsOnAnotherActivity(false);
 
         displayAnnounceText();
@@ -73,16 +78,22 @@ public class OrderFragment extends Fragment implements CartAdapter.OnItemClickLi
     private View.OnClickListener navigateToOrderDetail() {
         return view -> {
             Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
-
             intent.putParcelableArrayListExtra("cart_list", cartList);
-
-
-            startActivity(intent);
+            startActivityForResult(intent, ORDER_DETAIL_REQUEST_CODE);
 
 
         };
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ORDER_DETAIL_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // Xóa danh sách sản phẩm trong giỏ hàng
+            cartList.clear();
+            cartAdapter.notifyDataSetChanged();
+            displayAnnounceText();
+        }
+    }
 
     //Hien thi danh sach sp trong gio hang
     public ArrayList<Cart> getCartContents() {

@@ -18,6 +18,7 @@ import com.example.tokostore020302.Database.ProductDatabase;
 import com.example.tokostore020302.R;
 import com.example.tokostore020302.adapters.CartAdapter;
 import com.example.tokostore020302.adapters.OrderDetailAdapter;
+import com.example.tokostore020302.fragments.OrderFragment;
 import com.example.tokostore020302.models.Cart;
 import com.example.tokostore020302.models.User;
 import com.google.gson.Gson;
@@ -99,8 +100,6 @@ public class OrderDetailActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
 }
