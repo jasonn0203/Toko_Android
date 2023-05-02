@@ -18,4 +18,5 @@
     <string name="address_label">Address</string>
     <string name="address_hint">Nhập địa chỉ của bạn ...</string>
     <string name="btn_order_text">Chi tiết đơn hàng</string>
+    <string name="about_toko_desc">\t\t\t\tToko Store là một ứng dụng thương mại điện tử được thiết kế đơn giản nhưng vẫn đảm bảo tính năng và tính thẩm mỹ. Ứng dụng “Toko Store” mang cho mình 2 màu sắc chủ đạo chính là màu xanh dương đậm (mã màu : #006A81 ) và màu vàng nhạt (mã màu : #F7D662 ) . Màu xanh dương đậm thường được sử dụng để tạo ra sự chuyên nghiệp và đáng tin cậy. Trong khi đó, màu vàng nhạt thường được liên kết với sự tươi vui, sáng tạo và cảm giác thoải mái. Vì thế màu sắc của Toko Store đem lại cho người dùng cảm giác dễ chịu và tạo sự chuyên nghiệp và trung thực cho thương hiệu.</string>
 </resources>

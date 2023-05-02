@@ -18,31 +18,21 @@
         android:paddingHorizontal="24dp">
 
         <!--Hình SP-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/accountImage"
+        <ImageView
+            android:id="@+id/roundedImageView"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:elevation="10dp"
-            app:cardCornerRadius="1000dp">
-
-            <ImageView
-                android:id="@+id/roundedImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:scaleType="centerCrop"
-                android:src="@drawable/user_avatar" />
-        </androidx.cardview.widget.CardView>
+            android:scaleType="centerCrop"
+            android:src="@drawable/user_avatar" />
 
         <!--    Ten KH-->
         <LinearLayout
             android:id="@+id/accountName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/accountImage"
-
+            android:layout_below="@id/roundedImageView"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <!--TÊN KH-->
